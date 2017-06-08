@@ -1,15 +1,7 @@
-'use strict';
-const jwt = require('jsonwebtoken');
-const config = require('../../config/env');
-let User = require('../User/repository');
+import jwt from 'jsonwebtoken';
+import config from '../../config/env';
+import User from '../User/repository';
 
-/**
- * Returns jwt token if valid username and password is provided
- * @param req
- * @param res
- * @param next
- * @returns {*}
- */
 async function login(req, res, next) {
     try {
         let data = await User.find({ username: req.body.username, password: req.body.username });
@@ -24,14 +16,7 @@ async function login(req, res, next) {
     }
 }
 
-/**
- * This is a protected route. Will return random number only if jwt token is provided in header.
- * @param req
- * @param res
- * @returns {*}
- */
 function getRandomNumber(req, res) {
-  // req.user is assigned by jwt middleware if valid token is provided
   return res.json({
     user: req.user,
     num: Math.random() * 100
@@ -39,4 +24,4 @@ function getRandomNumber(req, res) {
 }
 
 
-export { login, getRandomNumber };
+export default { login, getRandomNumber };

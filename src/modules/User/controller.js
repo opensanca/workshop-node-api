@@ -1,13 +1,5 @@
-'use strict';
+import User from './repository';
 
-let User = require('./repository');
-
-/**
- * GET /
- * @param req
- * @param res
- * @param next
- */
 async function list(req, res, next) {
     try {
         const { limit = 50, skip = 0 } = req.query;
@@ -18,11 +10,6 @@ async function list(req, res, next) {
     }
 }
 
-
-/**
- * Get User
- * @returns {User}
- */
 async function get(req, res, next) {
   try {
         let data = await User.get(req.params.userId);
@@ -32,11 +19,6 @@ async function get(req, res, next) {
     }
 }
 
-
-/**
- * Get User
- * @returns {User}
- */
 async function load(req, res, next, id) {
     try {
         let data = await User.get(id);
@@ -46,13 +28,6 @@ async function load(req, res, next, id) {
     }
 }
 
-
-/**
- * Create new User
- * @property {string} req.body.username - The username of User.
- * @property {string} req.body.password - The password of User.
- * @returns {User}
-*/
 async function create(req, res, next) {
     try {
         const user = new User({
@@ -66,13 +41,6 @@ async function create(req, res, next) {
     }
 }
 
-
-/**
- * Update existing User
- * @property {string} req.body.username - The username of User.
- * @property {string} req.body.password - The password of User.
- * @returns {User}
- */
 async function update(req, res, next) {
     const user = await User.get(req.params.userId);
     user.username = req.body.username;
@@ -86,11 +54,6 @@ async function update(req, res, next) {
     }
 }
 
-
-/**
- * Delete User.
- * @returns {User}
- */
 async function remove(req, res, next) {
     try {
         const user = await User.get(req.params.userId);
@@ -101,4 +64,4 @@ async function remove(req, res, next) {
     }
 }
 
-export { load, list, get, create, update, remove };
+export default { load, list, get, create, update, remove };

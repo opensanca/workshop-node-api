@@ -1,14 +1,5 @@
-'use strict';
-
-
-const bcrypt = require('bcrypt');
-
-/**
- * User schema
- * @module User
- */
-
-const mongoose = require('mongoose');
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 let userSchema = mongoose.Schema({
     username: {
@@ -27,16 +18,6 @@ let userSchema = mongoose.Schema({
     }
 });
 
-/**
- * List of users
- * @method list
- * @param filter Object with filter conditions
- * @param skip Number of rows skipped
- * @param limit Number of rows
- * @param sort Sort expression
- * @param select Field names to include, space separated
- * @return {Promise<any>}
- */
 userSchema.statics.list = function(filter,
                                skip, limit,
                                sort, select) {
@@ -57,11 +38,6 @@ userSchema.statics.list = function(filter,
     }
 };
 
-/**
- * Get user
- * @param {ObjectId} id - The objectId of user.
- * @returns {Promise<User, Error>}
- */
 userSchema.statics.get = function(id) {
     try {
         return this.findById(id)

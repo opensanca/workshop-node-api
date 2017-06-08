@@ -1,31 +1,19 @@
-const UserCtrl = require('./controller');
-const router = require('express').Router();
-const validate = require ('express-validation');
-const paramValidation = require('../../config/param-validation');
-const expressJwt = require('express-jwt');
-const config = require('../../config/env');
+import UserCtrl from './controller';
+import config from '../../config/env';
+import paramValidation from '../../config/param-validation';
+import express from 'express';
+import validate from 'express-validation'
+import expressJwt from 'express-jwt';
+const router = express.Router();
 const jwtAuth = expressJwt({ secret: config.jwtSecret });
 
 router.route('/')
-  /** GET /api/users - Get list of users */
   .get(UserCtrl.list)
-
-  /** POST /api/users - Create new user */
-  //validate(paramValidation.createUser), 
-  .post(UserCtrl.create);
+  .post(validate(paramValidation.createUser),UserCtrl.create);
 
 router.route('/:userId')
-  /** GET /api/users/:userId - Get user */
   .get(UserCtrl.get)
-
-  /** PUT /api/users/:userId - Update user */
-  //validate(paramValidation.updateUser)
-  .put(UserCtrl.update)
-
-  /** DELETE /api/users/:userId - Delete user */
+  .put(validate(paramValidation.updateUser), UserCtrl.update)
   .delete(UserCtrl.remove);
-
-/** Load user when API with userId route parameter is hit */
-//router.param('userId', UserCtrl.load);
 
 export default router;

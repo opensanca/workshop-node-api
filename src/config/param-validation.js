@@ -1,4 +1,5 @@
-const Joi = require('joi');
+import Joi from 'joi';
+
 const validations = {
   // POST /api/users
   createUser: {

@@ -2,13 +2,10 @@ import mongoose from 'mongoose';
 import util from 'util';
 import config from './src/config/env';
 import app from './src/config/express';
+import Promise from 'bluebird';
+const debug = require('debug')('workshop-node-api:index');
 
-const debug = require('debug')('express-mongoose-es6-rest-api:index');
 
-// make bluebird default Promise
-Promise = require('bluebird'); // eslint-disable-line no-global-assign
-
-// plugin bluebird promise in mongoose
 mongoose.Promise = Promise;
 
 // connect to mongo db

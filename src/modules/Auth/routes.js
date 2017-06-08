@@ -1,14 +1,11 @@
-const AuthCtrl = require('./controller');
-const router = require('express').Router();
-const expressJwt = require('express-jwt');
-const config = require('../../config/env');
+import AuthCtrl from './controller';
+import express from 'express';
+import expressJwt from 'express-jwt';
+import config from '../../config/env';
+const router = express.Router();
+const jwtAuth = expressJwt({ secret: config.jwtSecret });
 
-
-/** POST /api/auth/login - Returns token if correct username and password is provided */
 router.route('/login').post(AuthCtrl.login);
-
-/** GET /api/auth/random-number - Protected route,
- * needs token returned by the above as header. Authorization: Bearer {token} */
-router.route('/random-number').get(expressJwt({ secret: config.jwtSecret }), AuthCtrl.getRandomNumber);
+router.route('/random-number').get(jwtAuth, AuthCtrl.getRandomNumber);
 
 export default router;
