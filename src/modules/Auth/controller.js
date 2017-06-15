@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config/env';
-import User from '../User/repository';
+import userRepository from '../user/repository';
 
 async function login(req, res, next) {
     try {
-        let data = await User.find({ username: req.body.username, password: req.body.username });
+        let data = await userRepository.find({ username: req.body.username, password: req.body.username });
         const token = jwt.sign({ username: data.username }, config.jwtSecret);
         
         return res.json({

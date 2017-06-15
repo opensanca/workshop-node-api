@@ -1,8 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import compress from 'compression';
+import compression from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
 import httpStatus from 'http-status';
@@ -12,8 +11,7 @@ import helmet from 'helmet';
 import winstonInstance from './winston';
 import config from './env';
 import APIError from '../helpers/APIError';
-import userRoutes from '../modules/User/routes';
-import authRoutes from '../modules/Auth/routes';
+import routes from './routes';
 
 const app = express();
 
@@ -25,8 +23,7 @@ if (config.env === 'development') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cookieParser());
-app.use(compress());
+app.use(compression());
 app.use(methodOverride());
 
 // secure apps by setting various HTTP headers
@@ -47,20 +44,8 @@ if (config.env === 'development') {
   }));
 }
 
-// log error in winston transports except when executing test suite
-if (config.env !== 'test') {
-  app.use(expressWinston.errorLogger({
-    winstonInstance
-  }));
-}
-
-// error handler, send stacktrace only during development
-app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
-  res.status(err.status).json({
-    message: err.isPublic ? err.message : httpStatus[err.status],
-    stack: config.env === 'development' ? err.stack : {}
-  })
-);
+// mount all routes on /api path
+app.use('/api', routes);
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {
@@ -76,17 +61,19 @@ app.use((err, req, res, next) => {
   return next(err);
 });
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new APIError('API not found', httpStatus.NOT_FOUND);
-  return next(err);
-});
+// log error in winston transports except when executing test suite
+if (config.env !== 'test') {
+  app.use(expressWinston.errorLogger({
+    winstonInstance
+  }));
+}
 
-//
-// serve API V1 routes
-///////////////////////////////////////////////////////////
-app.use('/apiv1/users', userRoutes);
-app.use('/apiv1/auth', authRoutes);
-
+// error handler, send stacktrace only during development
+app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
+  res.status(err.status).json({
+    message: err.isPublic ? err.message : httpStatus[err.status],
+    stack: config.env === 'development' ? err.stack : {}
+  })
+);
 
 export default app;

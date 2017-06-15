@@ -1,4 +1,4 @@
-import UserCtrl from './controller';
+import userController from './controller';
 import config from '../../config/env';
 import paramValidation from '../../config/param-validation';
 import express from 'express';
@@ -8,12 +8,12 @@ const router = express.Router();
 const jwtAuth = expressJwt({ secret: config.jwtSecret });
 
 router.route('/')
-  .get(UserCtrl.list)
-  .post(validate(paramValidation.createUser),UserCtrl.create);
+  .get(userController.list)
+  .post(validate(paramValidation.createUser), userController.create);
 
 router.route('/:userId')
-  .get(UserCtrl.get)
-  .put(validate(paramValidation.updateUser), UserCtrl.update)
-  .delete(UserCtrl.remove);
+  .get(userController.get)
+  .put(validate(paramValidation.updateUser), userController.update)
+  .delete(userController.remove);
 
 export default router;
