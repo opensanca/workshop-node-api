@@ -21,7 +21,7 @@ npm start
 
 Tests:
 ```sh
-# Run tests written in ES6 along with code coverage
+# Run tests
 npm test
 
 # Run tests on file change
