@@ -23,6 +23,7 @@ if (config.env === 'development') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//app.use(cookieParser());
 app.use(compression());
 app.use(methodOverride());
 
@@ -58,6 +59,12 @@ app.use((err, req, res, next) => {
     const apiError = new APIError(err.message, err.status, err.isPublic);
     return next(apiError);
   }
+  return next(err);
+});
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new APIError('API not found', httpStatus.NOT_FOUND);
   return next(err);
 });
 

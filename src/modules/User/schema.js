@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
+import httpStatus from 'http-status';
+import APIError from '../../helpers/APIError';
 
-let userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     username: {
         type: String,
         lowercase: true,
@@ -18,35 +20,43 @@ let userSchema = mongoose.Schema({
     }
 });
 
-userSchema.statics.list = function(filter,
-                               skip, limit,
-                               sort, select) {
+userSchema.statics = { 
+  list (filter, skip, limit, sort, select) {
     try {
-
-        let query = this.find()
+        const query = this.find()
             .sort({ createdAt: -1 })
             .skip(skip)
-            .limit(limit);    
-        /*let query = User.find(filter);
-        query.sort(sort);
-        query.skip(skip);
-        query.limit(limit);
-        query.select(select);*/
+            .limit(limit);  
         return query.exec();
     } catch (err) {
+        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
         return Promise.reject(err);
     }
-};
 
-userSchema.statics.get = function(id) {
-    try {
-        return this.findById(id)
-                    .exec();
-    } catch (err) {
+    /*
+    return this.findById(id)
+      .exec()
+      .then((user) => {
+        if (user) {
+          return user;
+        }
+        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
         return Promise.reject(err);
-    }
-};
+      });
+      */
+  },
 
+  get (id) {
+      try {
+          return this.findById(id)
+                      .exec();
+      } catch (err) {
+          const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+          return Promise.reject(err);
+      }
+  }
+
+}
 
 // Hash the user's password before inserting a new user
 userSchema.pre('save', function(next) {
@@ -69,14 +79,17 @@ userSchema.pre('save', function(next) {
   }
 });
 
-// Compare password input to password saved in database
-userSchema.methods.comparePassword = function(pw, cb) {
-  bcrypt.compare(pw, this.password, function(err, isMatch) {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, isMatch);
-  });
+
+userSchema.methods = {
+  // Compare password input to password saved in database
+  comparePassword (pw, cb) {
+    bcrypt.compare(pw, this.password, (err, isMatch) => {
+      if (err) {
+        return cb(err);
+      }
+      cb(null, isMatch);
+    })
+  }
 };
 
 export default userSchema;

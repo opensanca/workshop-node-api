@@ -1,4 +1,6 @@
 import userRepository from './repository';
+import APIError from '../../helpers/APIError';
+import httpStatus from 'http-status';
 
 async function list(req, res, next) {
     try {
@@ -9,12 +11,21 @@ async function list(req, res, next) {
         next(err);
     }
 }
+/*
+function list(req, res, next) {
+  const { limit = 50, skip = 0 } = req.query;
+  userRepository.list({ limit, skip })
+    .then(users => res.json(users))
+    .catch(e => next(e));
+}
+*/
 
 async function get(req, res, next) {
   try {
         let data = await userRepository.get(req.params.userId);
         res.json({ data });
     } catch (err) {
+        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
         next(err);
     }
 }
@@ -30,7 +41,7 @@ async function load(req, res, next, id) {
 
 async function create(req, res, next) {
     try {
-        const user = new User({
+        const user = new userRepository({
             username: req.body.username,
             password: req.body.password,
         });
