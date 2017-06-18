@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config/env';
-import userRepository from '../user/repository';
+import User from '../user/repository';
 import APIError from '../../helpers/APIError';
 import httpStatus from 'http-status';
 
@@ -8,7 +8,7 @@ import httpStatus from 'http-status';
 
 async function login(req, res, next) {
     try {
-        const data = await userRepository.findOne({ username: req.body.username });
+        const data = await User.findOne({ username: req.body.username });
         if (data) {
             data.comparePassword(req.body.password, function(err, isMatch) {
                 if (isMatch && !err) {

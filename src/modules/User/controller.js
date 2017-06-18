@@ -1,11 +1,11 @@
-import userRepository from './repository';
+import User from './repository';
 import APIError from '../../helpers/APIError';
 import httpStatus from 'http-status';
 
 async function list(req, res, next) {
     try {
         const { limit = 50, skip = 0 } = req.query;
-        let data = await userRepository.list({ limit, skip });
+        let data = await User.list({ limit, skip });
         res.json({success: true, data});
     } catch (err) {
         next(err);
@@ -14,7 +14,7 @@ async function list(req, res, next) {
 /*
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
-  userRepository.list({ limit, skip })
+  User.list({ limit, skip })
     .then(users => res.json(users))
     .catch(e => next(e));
 }
@@ -22,7 +22,7 @@ function list(req, res, next) {
 
 async function get(req, res, next) {
   try {
-        let data = await userRepository.get(req.params.userId);
+        let data = await User.get(req.params.userId);
         res.json({ data });
     } catch (err) {
         const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
@@ -32,7 +32,7 @@ async function get(req, res, next) {
 
 async function load(req, res, next, id) {
     try {
-        let data = await userRepository.get(id);
+        let data = await User.get(id);
         res.json({success: true, data});
     } catch (err) {
         next(err);
@@ -41,7 +41,7 @@ async function load(req, res, next, id) {
 
 async function create(req, res, next) {
     try {
-        const user = new userRepository({
+        const user = new User({
             username: req.body.username,
             password: req.body.password,
         });
@@ -53,7 +53,7 @@ async function create(req, res, next) {
 }
 
 async function update(req, res, next) {
-    const user = await userRepository.get(req.params.userId);
+    const user = await User.get(req.params.userId);
     user.username = req.body.username;
     user.password = req.body.password;
 
@@ -67,7 +67,7 @@ async function update(req, res, next) {
 
 async function remove(req, res, next) {
     try {
-        const user = await userRepository.get(req.params.userId);
+        const user = await User.get(req.params.userId);
         let data = await user.remove();
         res.json({success: true, data});
     } catch (err) {
