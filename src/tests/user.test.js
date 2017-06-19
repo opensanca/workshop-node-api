@@ -13,7 +13,7 @@ describe('## User APIs', () => {
   };
 
   describe('# POST /api/users', () => {
-    it('should create a new user', (done) => {
+    it('Deve criar um usuário', (done) => {
       request(app)
         .post('/api/users')
         .send(user)
@@ -27,7 +27,7 @@ describe('## User APIs', () => {
   });
 
   describe('# GET /api/users/:userId', () => {
-    it('should get user details', (done) => {
+    it('Deve retornar os detalhes do usuário', (done) => {
       request(app)
         .get(`/api/users/${user._id}`)
         .then((res) => {
@@ -38,7 +38,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
 
-    it('should report error with message - Not found, when user does not exists', (done) => {
+    it('Deve reportar erro com a mensagem - Não encontrado, quando o usuário não existe', (done) => {
       request(app)
         .get('/api/users/59466cf3da73f560a5f9b9d')
         .then((res) => {
@@ -51,7 +51,7 @@ describe('## User APIs', () => {
   });
 
   describe('# PUT /api/users/:userId', () => {
-    it('should update user details', (done) => {
+    it('Deve atualizar os detalhes do usuário', (done) => {
       user.username = 'kk';
       request(app)
         .put(`/api/users/${user._id}`)
@@ -66,7 +66,7 @@ describe('## User APIs', () => {
   });
 
   describe('# GET /api/users/', () => {
-    it('should get all users', (done) => {
+    it('Deve obter todos os usuários', (done) => {
       request(app)
         .get('/api/users')
         .then((res) => {
@@ -77,7 +77,7 @@ describe('## User APIs', () => {
         .catch(done);
     });
 
-    it('should get all users (with limit and skip)', (done) => {
+    it('Deve obter todos os usuários (com limit e skip)', (done) => {
       request(app)
         .get('/api/users')
         .query({ limit: 10, skip: 1 })
@@ -91,7 +91,7 @@ describe('## User APIs', () => {
   });
 
   describe('# DELETE /api/users/', () => {
-    it('should delete user', (done) => {
+    it('Deve excluir o usuário', (done) => {
       request(app)
         .delete(`/api/users/${user._id}`)
         .then((res) => {

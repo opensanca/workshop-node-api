@@ -21,7 +21,7 @@ describe('## Auth APIs', () => {
   let jwtToken;
 
   describe('# POST /api/auth/login', () => {
-    it('should return Authentication error', (done) => {
+    it('Deve retornar um erro de autenticação', (done) => {
       request(app)
         .post('/api/auth/login')
         .send(invalidUserCredentials)
@@ -32,7 +32,7 @@ describe('## Auth APIs', () => {
         .catch(done);
     });
 
-    it('should get valid JWT token', (done) => {
+    it('Deve ter um token JWT válido', (done) => {
       request(app)
         .post('/api/auth/login')
         .send(validUserCredentials)
@@ -51,7 +51,7 @@ describe('## Auth APIs', () => {
   });
 
   describe('# GET /api/auth/random-number', () => {
-    it('should fail to get random number because of missing Authorization', (done) => {
+    it('Deve falhar ao obter um número aleátório por que está faltando o Authorization Header', (done) => {
       request(app)
         .get('/api/auth/random-number')
         .then((res) => {
@@ -62,7 +62,7 @@ describe('## Auth APIs', () => {
         .catch(done);
     });
 
-    it('should fail to get random number because of wrong token', (done) => {
+    it('Deve falhar ao obter um número aleátório por que o token está incorreto', (done) => {
       request(app)
         .get('/api/auth/random-number')
         .set('Authorization', 'Bearer inValidToken')
@@ -74,7 +74,7 @@ describe('## Auth APIs', () => {
         .catch(done);
     });
 
-    it('should get a random number', (done) => {
+    it('Deve obter um número aleatório', (done) => {
       request(app)
         .get('/api/auth/random-number')
         .set('Authorization', jwtToken)
