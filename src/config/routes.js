@@ -1,18 +1,14 @@
 import express from 'express';
-import userRoutes from '../modules/user/route';
-import authRoutes from '../modules/auth/route';
+import UserRoutes from '../modules/user/user.route';
+import AuthRoutes from '../modules/auth/auth.route';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router();
 
-/** GET /health-check - Check service health */
 router.get('/health-check', (req, res) =>
   res.send('OK')
 );
 
-// mount user routes at /users
-router.use('/users', userRoutes);
-
-// mount auth routes at /auth
-router.use('/auth', authRoutes);
+router.use('/users', UserRoutes);
+router.use('/auth', AuthRoutes);
 
 export default router;

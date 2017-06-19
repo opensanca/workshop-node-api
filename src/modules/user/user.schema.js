@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import APIError from '../../helpers/APIError';
 
-const userSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
     username: {
         type: String,
         lowercase: true,
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     }
 });
 
-userSchema.statics = { 
+UserSchema.statics = { 
   list (filter, skip, limit, sort, select) {
     try {
         const query = this.find()
@@ -58,8 +58,8 @@ userSchema.statics = {
 
 }
 
-// Hash the user's password before inserting a new user
-userSchema.pre('save', function(next) {
+// Hash da senha do usuário antes de inserir um novo usuário
+UserSchema.pre('save', function(next) {
   var user = this;
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function(err, salt) {
@@ -80,8 +80,8 @@ userSchema.pre('save', function(next) {
 });
 
 
-userSchema.methods = {
-  // Compare password input to password saved in database
+UserSchema.methods = {
+  // Compare a entrada de senha com a senha salva no banco de dados
   comparePassword (pw, cb) {
     bcrypt.compare(pw, this.password, (err, isMatch) => {
       if (err) {
@@ -92,4 +92,4 @@ userSchema.methods = {
   }
 };
 
-export default userSchema;
+export default UserSchema;

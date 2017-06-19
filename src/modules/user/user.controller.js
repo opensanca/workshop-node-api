@@ -1,4 +1,4 @@
-import User from './repository';
+import User from './user.repository';
 import APIError from '../../helpers/APIError';
 import httpStatus from 'http-status';
 
@@ -26,15 +26,6 @@ async function get(req, res, next) {
         res.json({ data });
     } catch (err) {
         const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
-        next(err);
-    }
-}
-
-async function load(req, res, next, id) {
-    try {
-        let data = await User.get(id);
-        res.json({success: true, data});
-    } catch (err) {
         next(err);
     }
 }
@@ -75,4 +66,4 @@ async function remove(req, res, next) {
     }
 }
 
-export default { load, list, get, create, update, remove };
+export default { list, get, create, update, remove };

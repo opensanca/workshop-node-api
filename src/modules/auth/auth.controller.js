@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config/env';
-import User from '../user/repository';
+import User from '../user/user.repository';
 import APIError from '../../helpers/APIError';
 import httpStatus from 'http-status';
-
-
 
 async function login(req, res, next) {
     try {
@@ -12,7 +10,7 @@ async function login(req, res, next) {
         if (data) {
             data.comparePassword(req.body.password, function(err, isMatch) {
                 if (isMatch && !err) {
-                    // Create token if the password matched and no error was thrown
+                    // Criar token se a senha corresponder e nenhum erro foi encontrado
                     const token = jwt.sign({ username: data.username }, config.jwtSecret, {
                         expiresIn: "2 days"
                     });
@@ -23,14 +21,14 @@ async function login(req, res, next) {
                 } else {
                     res.send({
                         success: false,
-                        message: 'Authentication failed. Passwords did not match.'
+                        message: 'Falha na autenticação. Senhas não conferem.'
                     });
                 }
             });
         } else {
             res.send({
                 success: false,
-                message: 'Authentication failed. User not found.'
+                message: 'Falha na autenticação. Usuário não encontrado.'
             });
         }
     } catch (err) {
@@ -45,6 +43,5 @@ function getRandomNumber(req, res) {
     num: Math.random() * 100
   });
 }
-
 
 export default { login, getRandomNumber };

@@ -26,7 +26,7 @@ describe('## Auth APIs', () => {
         .post('/api/auth/login')
         .send(invalidUserCredentials)
         .then((res) => {
-          expect(res.body.message).to.equal('Authentication failed. User not found.');
+          expect(res.body.message).to.equal('Falha na autenticação. Usuário não encontrado.');
           done();
         })
         .catch(done);
@@ -40,7 +40,7 @@ describe('## Auth APIs', () => {
           expect(res.body).to.have.property('token');
           expect(res.statusCode).to.equal(httpStatus.OK)
           jwt.verify(res.body.token, config.jwtSecret, (err, decoded) => {
-            expect(err).to.not.be.ok; // eslint-disable-line no-unused-expressions
+            expect(err).to.not.be.ok; 
             //expect(decoded.username).to.equal(validUserCredentials.username);
             jwtToken = `Bearer ${res.body.token}`;
             done();

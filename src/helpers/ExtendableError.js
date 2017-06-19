@@ -1,7 +1,3 @@
-
-/**
- * @extends Error
- */
 class ExtendableError extends Error {
   constructor(message, status, isPublic) {
     super(message);
@@ -9,7 +5,7 @@ class ExtendableError extends Error {
     this.message = message;
     this.status = status;
     this.isPublic = isPublic;
-    this.isOperational = true; // This is required since bluebird 4 doesn't append it anymore.
+    this.isOperational = true; // Isso é necessário, pois o bluebird 4 não o anexa mais.
     Error.captureStackTrace(this, this.constructor.name);
   }
 }
