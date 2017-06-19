@@ -23,9 +23,6 @@ Tests:
 ```sh
 # Run tests
 npm test
-
-# Run tests on file change
-npm test:watch
 ```
 
 Other gulp tasks:
