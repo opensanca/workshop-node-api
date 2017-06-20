@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import APIError from '../../helpers/APIError';
