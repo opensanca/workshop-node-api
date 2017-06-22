@@ -9,13 +9,13 @@ chai.config.includeStack = true;
 
 describe('## Auth APIs', () => {
   const validUserCredentials = {
-    username: 'eita1234',
-    password: 'eita1234'
+    username: 'chessuss',
+    password: 'chessuss'
   };
 
   const invalidUserCredentials = {
     username: 'react',
-    password: 'IDontKnow'
+    password: 'react'
   };
 
   let jwtToken;

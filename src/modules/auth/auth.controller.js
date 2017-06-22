@@ -7,30 +7,31 @@ import httpStatus from 'http-status';
 async function login(req, res, next) {
     try {
         const data = await User.findOne({ username: req.body.username });
-        if (data) {
-            data.comparePassword(req.body.password, function(err, isMatch) {
-                if (isMatch && !err) {
-                    // Criar token se a senha corresponder e nenhum erro foi encontrado
-                    const token = jwt.sign({ username: data.username }, config.jwtSecret, {
-                        expiresIn: "2 days"
-                    });
-                    return res.json({
-                        token,
-                        username: data.username
-                    });
-                } else {
-                    res.send({
-                        success: false,
-                        message: 'Falha na autenticação. Senhas não conferem.'
-                    });
-                }
-            });
-        } else {
-            res.send({
+        if (!data) {
+            return res.send({
                 success: false,
                 message: 'Falha na autenticação. Usuário não encontrado.'
             });
         }
+
+        if (data.password != req.body.password) {
+            res.send({
+                success: false,
+                message: 'Falha na autenticação. Senhas não conferem.'
+            });
+        }
+
+        if (data.password == req.body.password) {
+            // Criar token se a senha corresponder e nenhum erro foi encontrado
+            const token = jwt.sign({ username: data.username }, config.jwtSecret, {
+                expiresIn: "2 days"
+            });
+            return res.json({
+                token,
+                username: data.username
+            });
+        }
+    
     } catch (err) {
         const errMsg = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
         next(err);

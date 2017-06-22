@@ -25,7 +25,7 @@ async function get(req, res, next) {
         let data = await User.get(req.params.userId);
         res.json({ data });
     } catch (err) {
-        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+        const err = new APIError('Nenhum usuário encontrado!', httpStatus.NOT_FOUND);
         next(err);
     }
 }

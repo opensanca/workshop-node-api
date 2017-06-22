@@ -7,14 +7,14 @@ import runSequence from 'run-sequence';
 const plugins = gulpLoadPlugins();
 
 const paths = {
-  js: ['./**/*.js', '!dist/**', '!node_modules/**', '!coverage/**'],
+  js: ['./**/*.js', '!dist/**', '!node_modules/**'],
   nonJs: ['./package.json', './.gitignore'],
   tests: './src/tests/*.js'
 };
 
-// Clean up dist and coverage directory
+// Clean up dist
 gulp.task('clean', () =>
-  del(['dist/**', 'coverage/**', '!dist', '!coverage'])
+  del(['dist/**', '!dist', ])
 );
 
 // Copy non-js files to dist
