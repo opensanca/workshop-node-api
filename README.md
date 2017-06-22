@@ -1,35 +1,35 @@
 # Workshop Node.js API
 
-## Getting Started
+## REST Api usando MongoDB & Express
 
-Clone the repo:
+Clonar o repositório:
 ```sh
 git clone git@github.com:pedrobarrostech/workshop-node-api.git
 cd workshop-node-api
 ```
 
-Install dependencies:
+Instalar as dependências:
 ```sh
 npm install
 ```
 
-Start server:
+Iniciar o servidor:
 ```sh
-# Start server
+# Iniciar o servidor
 npm start
 ```
 
-Tests:
+Testes:
 ```sh
-# Run tests
+# Rodar os testes
 npm test
 ```
 
-Other gulp tasks:
+Tarefas gulp:
 ```sh
-# Wipe out dist and coverage directory
+# Remove o diretório dist
 gulp clean
 
-# Default task: Wipes out dist and coverage directory. Compiles using babel.
+# Tarefa padrão: remove o dist. Compila usando babel.
 gulp
 ```

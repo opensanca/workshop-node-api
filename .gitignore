@@ -7,7 +7,7 @@ npm-debug.log*
 .idea
 .vscode
 
-# OS generated files
+# Arquivos gerados de SO
 .DS_Store
 .DS_Store?
 ._*
@@ -15,8 +15,9 @@ npm-debug.log*
 ehthumbs.db
 Icon?
 Thumbs.db
+package-lock.json
 
-# Babel ES6 compiles files
+# Arquivos compilados pelo Babel ES6/ES7
 dist
 
 # Dependency directory
