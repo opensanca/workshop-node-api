@@ -4,7 +4,7 @@
 
 Clonar o repositório:
 ```sh
-git clone git@github.com:pedrobarrostech/workshop-node-api.git
+git clone git@github.com:opensanca/workshop-node-api.git
 cd workshop-node-api
 ```
 
